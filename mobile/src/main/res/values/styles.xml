@@ -1,0 +1,71 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="TextScore" parent="android:TextAppearance.DeviceDefault.Large">
+        <item name="android:textSize">120sp</item>
+        <item name="android:textColor">#ff123456</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="TextScore.7">
+        <item name="android:textSize">210sp</item>
+    </style>
+
+    <style name="TextScore.10">
+        <item name="android:textSize">320sp</item>
+    </style>
+
+    <style name="TextTeam" parent="TextScore">
+        <item name="android:textSize">32sp</item>
+        <item name="android:maxLength">10</item>
+    </style>
+
+    <style name="TextTeam.7">
+        <item name="android:textSize">60sp</item>
+    </style>
+
+    <style name="TextTeam.10">
+        <item name="android:textSize">84sp</item>
+    </style>
+
+    <style name="MyButton" parent="android:Widget.Button">
+        <item name="android:textColor">#ff333333</item>
+        <item name="android:background">@drawable/custom_buttom</item>
+    </style>
+
+    <style name="ColorButton" parent="android:Widget.Button">
+        <item name="android:background">@drawable/custom_buttom</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="ColorButton.Yellow" parent="ColorButton">
+        <item name="android:background">@drawable/button_yellow</item>
+        <item name="android:contentDescription">"Yellow"</item>
+    </style>
+
+    <style name="ColorButton.Blue" parent="ColorButton">
+        <item name="android:background">@drawable/button_blue</item>
+        <item name="android:contentDescription">"Blue"</item>
+    </style>
+
+    <style name="ColorButton.Red" parent="ColorButton">
+        <item name="android:background">@drawable/button_red</item>
+        <item name="android:contentDescription">"Red"</item>
+    </style>
+
+    <style name="ColorButton.Green" parent="ColorButton">
+        <item name="android:background">@drawable/button_green</item>
+        <item name="android:contentDescription">"Green"</item>
+    </style>
+</resources>

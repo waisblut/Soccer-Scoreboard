@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_dialog">
+
+    <EditText
+        android:id="@+id/edtTeamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/team_name_hint"
+        android:inputType="textPersonName"
+        android:maxLength="20"
+        android:text=""
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/normal_size" />
+
+    <TextView
+        android:id="@+id/txtPickColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtTeamName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/pick_color"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/normal_size" />
+
+
+    <LinearLayout
+        android:id="@+id/lay_Colors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPickColor"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+
+        <ImageButton
+            android:id="@+id/imgButton_Yellow"
+            style="@style/ColorButton.Yellow"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:id="@+id/imgButton_Blue"
+            style="@style/ColorButton.Blue"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:id="@+id/imgButton_Red"
+            style="@style/ColorButton.Red"
+            android:layout_gravity="center" />
+
+        <ImageButton
+            android:id="@+id/imgButton_Green"
+            style="@style/ColorButton.Green"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</RelativeLayout>
