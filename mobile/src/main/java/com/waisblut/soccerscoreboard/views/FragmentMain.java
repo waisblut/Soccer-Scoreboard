@@ -115,7 +115,6 @@ public class FragmentMain
         return mView;
     }
 
-
     @Override
     public void onClick(View v)
     {
