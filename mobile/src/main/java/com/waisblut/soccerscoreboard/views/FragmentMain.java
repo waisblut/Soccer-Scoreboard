@@ -29,6 +29,7 @@ public class FragmentMain
         extends Fragment
         implements View.OnClickListener
 {
+    //region Variables...
     private Dialog mDlgConfig;
     private Button mBtnUndoA;
     private Button mBtnUndoB;
@@ -37,10 +38,9 @@ public class FragmentMain
     private View mView;
     private int mCounterA = 0, mCounterB = 0;
 
+    //endregion
 
     public FragmentMain() {}
-
-    //TESTE
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -51,6 +51,7 @@ public class FragmentMain
 
         getActivity().getWindow().setBackgroundDrawable(null);
 
+        //region Init View...
         ImageButton imgBtnConfigA = (ImageButton) mView.findViewById(R.id.imgBtn_Config_A);
         ImageButton imgBtnConfigB = (ImageButton) mView.findViewById(R.id.imgBtn_Config_B);
 
@@ -66,7 +67,9 @@ public class FragmentMain
 
         RelativeLayout rlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
         RelativeLayout rlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
+        //endregion
 
+        //region LongClick....
         View.OnLongClickListener myLongClick = new View.OnLongClickListener()
         {
             @Override
@@ -92,8 +95,9 @@ public class FragmentMain
                 return true;
             }
         };
+        //endregion
 
-        //region ClickListeners
+        //region ClickListeners...
         imgBtnConfigA.setOnClickListener(this);
         imgBtnConfigB.setOnClickListener(this);
 
@@ -171,6 +175,7 @@ public class FragmentMain
         }
     }
 
+    //region Private Methods...
     private int changeScore(int value, char team)
     {
         value = (value < 0) ? 0 : value;
@@ -197,7 +202,9 @@ public class FragmentMain
         changeScore(mCounterA, 'A');
         changeScore(mCounterB, 'B');
     }
+    //endregion
 
+    //region Dialog...
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void create_A_dialog(final char tag)
     {
@@ -354,5 +361,6 @@ public class FragmentMain
 
         return imgButton;
     }
+    //endregion
     //endregion
 }
