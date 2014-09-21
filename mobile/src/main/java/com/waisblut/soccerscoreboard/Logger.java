@@ -7,6 +7,13 @@ public final class Logger
     //Project Constants
     private final static String TAG = "waisblut";
 
+    public final static String TEAM_A_SCORE = "Team A Score";
+    public final static String TEAM_B_SCORE = "Team B Score";
+    public final static String TEAM_A_NAME = "Team A Name";
+    public final static String TEAM_B_NAME = "Team B Name";
+    public final static String TEAM_A_COLOR = "Team A Color";
+    public final static String TEAM_B_COLOR = "Team B Color";
+
     private final static boolean IS_DEBUG = BuildConfig.DEBUG;
 
     public static void log(char type, String s)

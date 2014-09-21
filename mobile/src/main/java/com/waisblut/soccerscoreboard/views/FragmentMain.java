@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -29,15 +30,17 @@ public class FragmentMain
         extends Fragment
         implements View.OnClickListener
 {
+
     //region Variables...
+    private RelativeLayout mRlA, mRlB;
     private Dialog mDlgConfig;
     private Button mBtnUndoA;
     private Button mBtnUndoB;
     private TextView mTxtNameA, mTxtNameB;
     private TextView mTxtScoreA, mTxtScoreB;
     private View mView;
-    private int mCounterA = 0, mCounterB = 0;
-
+    private int mCounterA, mCounterB;
+    private SharedPreferences mSp;
     //endregion
 
     public FragmentMain() {}
@@ -65,8 +68,14 @@ public class FragmentMain
         mTxtScoreA = (TextView) mView.findViewById(R.id.txtScore_A);
         mTxtScoreB = (TextView) mView.findViewById(R.id.txtScore_B);
 
-        RelativeLayout rlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
-        RelativeLayout rlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
+        mRlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
+        mRlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
+        //endregion
+
+        //region Init Score....
+        setPreferences();
+
+        setInitialSettings();
         //endregion
 
         //region LongClick....
@@ -104,8 +113,8 @@ public class FragmentMain
         btnReset.setOnClickListener(this);
         mBtnUndoA.setOnClickListener(this);
         mBtnUndoB.setOnClickListener(this);
-        rlA.setOnClickListener(this);
-        rlB.setOnClickListener(this);
+        mRlA.setOnClickListener(this);
+        mRlB.setOnClickListener(this);
 
         mBtnUndoA.setOnLongClickListener(myLongClick);
         mBtnUndoB.setOnLongClickListener(myLongClick);
@@ -113,6 +122,23 @@ public class FragmentMain
         //endregion
 
         return mView;
+    }
+
+    private void setInitialSettings()
+    {
+        mCounterA = changeScore(mSp.getInt(Logger.TEAM_A_SCORE, 0), 'A');
+        mCounterB = changeScore(mSp.getInt(Logger.TEAM_B_SCORE, 0), 'B');
+
+
+        mTxtNameA.setText(mSp.getString(Logger.TEAM_A_NAME,
+                                        getActivity().getResources().getString(R.string.team_A)));
+        mTxtNameB.setText(mSp.getString(Logger.TEAM_B_NAME,
+                                        getActivity().getResources().getString(R.string.team_B)));
+
+        setBackground(mRlA, mSp.getInt(Logger.TEAM_A_COLOR,
+                                       R.drawable.background_team_divider_red));
+        setBackground(mRlB, mSp.getInt(Logger.TEAM_B_COLOR,
+                                       R.drawable.background_team_divider_blue));
     }
 
     @Override
@@ -182,11 +208,15 @@ public class FragmentMain
         if (team == 'A')
         {
             mTxtScoreA.setText(String.valueOf(value));
+            mSp.edit().putInt(Logger.TEAM_A_SCORE, value).apply();
         }
         else if (team == 'B')
         {
             mTxtScoreB.setText(String.valueOf(value));
+            mSp.edit().putInt(Logger.TEAM_B_SCORE, value).apply();
         }
+
+
         Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(50);
 
@@ -201,13 +231,18 @@ public class FragmentMain
         changeScore(mCounterA, 'A');
         changeScore(mCounterB, 'B');
     }
+
+    private void setPreferences()
+    {
+        mSp = getActivity().getPreferences(Context.MODE_PRIVATE);
+    }
     //endregion
 
     //region Dialog...
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void create_A_dialog(final char tag)
     {
-        final RelativeLayout rlA, rlB;
+        //final RelativeLayout rlA, rlB;
         mDlgConfig = new Dialog(getActivity());
         WindowManager.LayoutParams wmlp;
         //final ImageButton imgBtnRed, imgBtnGreen, imgBtnYellow;
@@ -221,8 +256,8 @@ public class FragmentMain
 
         mDlgConfig.setContentView(R.layout.dialog_config);
 
-        rlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
-        rlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
+        //rlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
+        //rlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
 
         edtTeamName = (EditText) mDlgConfig.findViewById(R.id.edtTeamName);
         edtTeamName.addTextChangedListener(new TextWatcher()
@@ -261,16 +296,14 @@ public class FragmentMain
             public void onClick(View v)
             {
                 RelativeLayout rl = new RelativeLayout(getActivity());
-                Logger.log('d', "Clicou em " + v.getTag().toString() + " - " +
-                                v.getContentDescription().toString());
 
                 if (tag == 'A')
                 {
-                    rl = rlA;
+                    rl = mRlA;
                 }
                 else if (tag == 'B')
                 {
-                    rl = rlB;
+                    rl = mRlB;
                 }
 
                 switch (v.getId())
@@ -304,8 +337,11 @@ public class FragmentMain
             @Override
             public void onDismiss(DialogInterface dialog)
             {
-                rlA.setVisibility(View.VISIBLE);
-                rlB.setVisibility(View.VISIBLE);
+                mRlA.setVisibility(View.VISIBLE);
+                mRlB.setVisibility(View.VISIBLE);
+
+                mSp.edit().putString(Logger.TEAM_A_NAME, mTxtNameA.getText().toString()).apply();
+                mSp.edit().putString(Logger.TEAM_B_NAME, mTxtNameB.getText().toString()).apply();
             }
         });
 
@@ -313,14 +349,16 @@ public class FragmentMain
         {
         case 'A':
             wmlp.gravity = Gravity.TOP | Gravity.END;
-            rlB.setVisibility(View.INVISIBLE);
-            mTxtNameA.getText().toString();
-            rlA.getBackground();
+            mRlB.setVisibility(View.INVISIBLE);
+            //mTxtNameA.getText().toString();
+            //mRlA.getBackground();
             break;
 
         case 'B':
             wmlp.gravity = Gravity.TOP | Gravity.START;
-            rlA.setVisibility(View.INVISIBLE);
+            mRlA.setVisibility(View.INVISIBLE);
+            //mTxtNameB.getText().toString();
+            //mRlA.getBackground();
             break;
         }
 
@@ -339,6 +377,16 @@ public class FragmentMain
         {
             v.setBackgroundDrawable(getResources().getDrawable(color));
         }
+
+        if (v.getId() == mRlA.getId())
+        {
+            mSp.edit().putInt(Logger.TEAM_A_COLOR, color).apply();
+        }
+        else if (v.getId() == mRlB.getId())
+        {
+            mSp.edit().putInt(Logger.TEAM_B_COLOR, color).apply();
+        }
+
 
     }
 
