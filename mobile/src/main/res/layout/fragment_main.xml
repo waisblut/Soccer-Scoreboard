@@ -145,7 +145,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="@string/reset" />
+        android:text="@string/reset_score" />
 
     <ImageButton
         android:id="@+id/btnHelp"
