@@ -32,7 +32,7 @@ public class FragmentMain
 {
 
     //region Variables...
-    private RelativeLayout mRlA, mRlB;
+    private RelativeLayout mRlA, mRlB, mRlA_Back, mRlB_Back;
     private Dialog mDlgConfig;
     private Button mBtnUndoA;
     private Button mBtnUndoB;
@@ -70,6 +70,8 @@ public class FragmentMain
 
         mRlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
         mRlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
+        mRlA_Back = (RelativeLayout) mView.findViewById(R.id.lay_Back_A);
+        mRlB_Back = (RelativeLayout) mView.findViewById(R.id.lay_Back_B);
         //endregion
 
         //region Init Score....
@@ -242,7 +244,6 @@ public class FragmentMain
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void create_A_dialog(final char tag)
     {
-        //final RelativeLayout rlA, rlB;
         mDlgConfig = new Dialog(getActivity());
         WindowManager.LayoutParams wmlp;
         //final ImageButton imgBtnRed, imgBtnGreen, imgBtnYellow;
@@ -255,9 +256,6 @@ public class FragmentMain
         wmlp.verticalMargin = 0.1f;
 
         mDlgConfig.setContentView(R.layout.dialog_config);
-
-        //rlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
-        //rlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
 
         edtTeamName = (EditText) mDlgConfig.findViewById(R.id.edtTeamName);
         edtTeamName.addTextChangedListener(new TextWatcher()
@@ -337,6 +335,17 @@ public class FragmentMain
             @Override
             public void onDismiss(DialogInterface dialog)
             {
+                switch (tag)
+                {
+                case 'B':
+                    setBackground(mRlA_Back, R.drawable.soccer_field_left);
+                    break;
+
+                case 'A':
+                    setBackground(mRlB_Back, R.drawable.soccer_field_right);
+                    break;
+                }
+
                 mRlA.setVisibility(View.VISIBLE);
                 mRlB.setVisibility(View.VISIBLE);
 
@@ -350,15 +359,13 @@ public class FragmentMain
         case 'A':
             wmlp.gravity = Gravity.TOP | Gravity.END;
             mRlB.setVisibility(View.INVISIBLE);
-            //mTxtNameA.getText().toString();
-            //mRlA.getBackground();
+            setBackground(mRlB_Back, android.R.color.black);
             break;
 
         case 'B':
             wmlp.gravity = Gravity.TOP | Gravity.START;
             mRlA.setVisibility(View.INVISIBLE);
-            //mTxtNameB.getText().toString();
-            //mRlA.getBackground();
+            setBackground(mRlA_Back, android.R.color.black);
             break;
         }
 

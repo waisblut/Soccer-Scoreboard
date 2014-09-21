@@ -12,7 +12,7 @@
         android:width="1dp"
         android:color="#ff000000" />
 
-    <solid android:color="#40000000" />
+    <solid android:color="#90000000" />
 
     <!--<gradient-->
     <!--android:angle="90"-->
