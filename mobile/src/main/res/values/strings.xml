@@ -13,5 +13,7 @@
     <string name="long_press_reset">Long Press to Reset Scores</string>
     <string name="reset_score">Reset Score</string>
     <string name="long_press_undo">Long Press to Undo Score</string>
+    <string name="master_reset">Master Reset</string>
+    <string name="long_press_reset_all">Long Press again to Reset\nTeams Name and Color</string>
 
 </resources>

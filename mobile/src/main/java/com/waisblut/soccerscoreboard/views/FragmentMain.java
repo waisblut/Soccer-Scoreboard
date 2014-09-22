@@ -99,7 +99,18 @@ public class FragmentMain
                     break;
 
                 case R.id.btnReset:
-                    resetCounters();
+                    if (mCounterA == 0 && mCounterB == 0)
+                    {
+                        resetAll();
+                    }
+                    else
+                    {
+                        resetCounters();
+                        Toast.makeText(getActivity(),
+                                       getResources().getString(R.string.long_press_reset_all),
+                                       Toast.LENGTH_SHORT).show();
+                    }
+
                     break;
                 }
 
@@ -225,6 +236,20 @@ public class FragmentMain
         return value;
     }
 
+    private void resetAll()
+    {
+        mSp.edit().putInt(Logger.TEAM_A_SCORE, 0).apply();
+        mSp.edit().putString(Logger.TEAM_A_NAME, getResources().getString(R.string.team_A)).apply();
+        mTxtNameA.setText(getResources().getString(R.string.team_A));
+        setBackground(mRlA, R.drawable.background_team_divider_red);
+
+        mSp.edit().putInt(Logger.TEAM_B_SCORE, 0).apply();
+        mSp.edit().putString(Logger.TEAM_B_NAME, getResources().getString(R.string.team_B)).apply();
+        mTxtNameB.setText(getResources().getString(R.string.team_B));
+        setBackground(mRlB, R.drawable.background_team_divider_blue);
+
+    }
+
     private void resetCounters()
     {
         mCounterA = 0;
@@ -232,6 +257,8 @@ public class FragmentMain
 
         changeScore(mCounterA, 'A');
         changeScore(mCounterB, 'B');
+
+
     }
 
     private void setPreferences()
