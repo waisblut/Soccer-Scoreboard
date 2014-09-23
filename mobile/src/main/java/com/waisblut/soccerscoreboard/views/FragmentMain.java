@@ -33,12 +33,11 @@ public class FragmentMain
 
     //region Variables...
     private RelativeLayout mRlA, mRlB, mRlA_Back, mRlB_Back;
-    private Dialog mDlgConfig;
+    private Dialog mDlgConfig, mDlgHelp;
     private Button mBtnUndoA;
     private Button mBtnUndoB;
     private TextView mTxtNameA, mTxtNameB;
     private TextView mTxtScoreA, mTxtScoreB;
-    private View mView;
     private int mCounterA, mCounterB;
     private SharedPreferences mSp;
     //endregion
@@ -50,28 +49,29 @@ public class FragmentMain
                              ViewGroup container,
                              Bundle savedInstanceState)
     {
-        mView = inflater.inflate(R.layout.fragment_main, container, false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         getActivity().getWindow().setBackgroundDrawable(null);
 
         //region Init View...
-        ImageButton imgBtnConfigA = (ImageButton) mView.findViewById(R.id.imgBtn_Config_A);
-        ImageButton imgBtnConfigB = (ImageButton) mView.findViewById(R.id.imgBtn_Config_B);
+        ImageButton imgBtnConfigA = (ImageButton) view.findViewById(R.id.imgBtn_Config_A);
+        ImageButton imgBtnConfigB = (ImageButton) view.findViewById(R.id.imgBtn_Config_B);
+        ImageButton imgHelp = (ImageButton) view.findViewById(R.id.imgBtnHelp);
 
-        Button btnReset = (Button) mView.findViewById(R.id.btnReset);
-        mBtnUndoA = (Button) mView.findViewById(R.id.btnUndo_A);
-        mBtnUndoB = (Button) mView.findViewById(R.id.btnUndo_B);
+        Button btnReset = (Button) view.findViewById(R.id.btnReset);
+        mBtnUndoA = (Button) view.findViewById(R.id.btnUndo_A);
+        mBtnUndoB = (Button) view.findViewById(R.id.btnUndo_B);
 
-        mTxtNameA = (TextView) mView.findViewById(R.id.txtTeam_A);
-        mTxtNameB = (TextView) mView.findViewById(R.id.txtTeam_B);
+        mTxtNameA = (TextView) view.findViewById(R.id.txtTeam_A);
+        mTxtNameB = (TextView) view.findViewById(R.id.txtTeam_B);
 
-        mTxtScoreA = (TextView) mView.findViewById(R.id.txtScore_A);
-        mTxtScoreB = (TextView) mView.findViewById(R.id.txtScore_B);
+        mTxtScoreA = (TextView) view.findViewById(R.id.txtScore_A);
+        mTxtScoreB = (TextView) view.findViewById(R.id.txtScore_B);
 
-        mRlA = (RelativeLayout) mView.findViewById(R.id.lay_A);
-        mRlB = (RelativeLayout) mView.findViewById(R.id.lay_B);
-        mRlA_Back = (RelativeLayout) mView.findViewById(R.id.lay_Back_A);
-        mRlB_Back = (RelativeLayout) mView.findViewById(R.id.lay_Back_B);
+        mRlA = (RelativeLayout) view.findViewById(R.id.lay_A);
+        mRlB = (RelativeLayout) view.findViewById(R.id.lay_B);
+        mRlA_Back = (RelativeLayout) view.findViewById(R.id.lay_Back_A);
+        mRlB_Back = (RelativeLayout) view.findViewById(R.id.lay_Back_B);
         //endregion
 
         //region Init Score....
@@ -122,6 +122,7 @@ public class FragmentMain
         //region ClickListeners...
         imgBtnConfigA.setOnClickListener(this);
         imgBtnConfigB.setOnClickListener(this);
+        imgHelp.setOnClickListener(this);
 
         btnReset.setOnClickListener(this);
         mBtnUndoA.setOnClickListener(this);
@@ -134,7 +135,16 @@ public class FragmentMain
         btnReset.setOnLongClickListener(myLongClick);
         //endregion
 
-        return mView;
+        return view;
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+
+        mDlgConfig.dismiss();
+        mDlgHelp.dismiss();
     }
 
     private void setInitialSettings()
@@ -167,6 +177,10 @@ public class FragmentMain
 
             case R.id.imgBtn_Config_B:
                 create_A_dialog('B');
+                break;
+
+            case R.id.imgBtnHelp:
+                create_A_dialogHelp();
                 break;
 
             case R.id.btnReset:
@@ -269,6 +283,20 @@ public class FragmentMain
 
     //region Dialog...
     @SuppressWarnings("ResultOfMethodCallIgnored")
+
+    private void create_A_dialogHelp()
+    {
+        mDlgHelp = new Dialog(getActivity());
+
+
+        mDlgHelp.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mDlgHelp.setContentView(R.layout.dialog_help);
+        //mDlgHelp.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        // mDlgHelp.getWindow().setDimAmount(0.05f);
+
+        mDlgHelp.show();
+    }
+
     private void create_A_dialog(final char tag)
     {
         mDlgConfig = new Dialog(getActivity());
