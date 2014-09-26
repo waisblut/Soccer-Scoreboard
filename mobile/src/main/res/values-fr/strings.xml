@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Soccer Scoreboard Lite</string>
+    <string name="help_config">APPUYEZ pour définir le nom\nde l\'équipe et la couleur.</string>
+    <string name="help_config.10">APPUYEZ\npour définir le nom de l\'équipe et la couleur.</string>
+    <string name="help_config.7">APPUYEZ\npour définir le nom de l\'équipe et la couleur.</string>
+    <string name="help_reset">APPUI LONG réinitialiser Scores.  Si la\nréponse est 0: 0, alors il sera Réinitialiser\nNom de l\'équipe et la couleur.</string>
+    <string name="help_reset.10">APPUI LONG réinitialiser Scores.  Si la réponse est 0: 0,\nalors il sera Réinitialiser Nom de l\'équipe et la couleur.</string>
+    <string name="help_reset.7">APPUI LONG réinitialiser Scores.  Si la réponse est 0: 0,\nalors il sera Réinitialiser Nom de l\'équipe et la couleur.</string>
+    <string name="help_undo">APPUI LONG\nà annuler un but.</string>
+    <string name="help_undo.10">APPUI LONG à annuler un but.</string>
+    <string name="help_undo.7">APPUI LONG à annuler un but.</string>
+    <string name="long_press_reset">APPUI LONG pour réinitialiser Scores</string>
+    <string name="long_press_reset_all">APPUI LONG pour\nréinitialiser équipes Nom et Couleur</string>
+    <string name="long_press_undo">APPUI LONG à annuler la dernière note</string>
+    <string name="pick_color">Choisissez une couleur</string>
+    <string name="action_settings">Paramètres</string>
+    <string name="reset_score">Réinitialiser Scores</string>
+    <string name="team_A">Locale</string>
+    <string name="team_B">Visiteurs</string>
+    <string name="team_name_hint">Tapez un nom d\'équipe</string>
+    <string name="undo">Annuler</string>
+    <string name="full_version"><![CDATA[<a href="https://play.google.com/store/apps/developer?id=Waisblut+Mobile+Applications">CLIQUEZ ICI POUR LA VERSION COMPLÈTE</a><p>(À paraître prochainement!)</p>]]></string>
+    <string name="obs">* Ceci est la version gratuite.\n\n- Certaines fonctionnalités ne sont disponibles que sur la version payante.\n\n- Pour tout commentaire ou suggestion, s\'il vous plaît contactez-nous au waisblutmobileapp@gmail.com\n\n- Si vous aimez cette application, s\'il vous plaît soutenir le développement par l\'installation de la version US$0.99</string>
+</resources>

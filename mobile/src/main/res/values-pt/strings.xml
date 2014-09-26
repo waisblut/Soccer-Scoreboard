@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Placar da Pelada Lite</string>
+    <string name="action_settings">Configurações</string>
+    <string name="full_version"><![CDATA[<a href="https://play.google.com/store/apps/developer?id=Waisblut+Mobile+Applications">CLIQUE AQUI PARA A VERSÃO FULL</a><p>(A ser lançada ainda!)</p>]]></string>
+    <string name="help_config">PRESSIONE para\nconfigurar nome e cor do time.</string>
+    <string name="help_config.10">PRESSIONE para configurar nome e cor do time.</string>
+    <string name="help_config.7">PRESSIONE para\nconfigurar nome e cor do time.</string>
+    <string name="help_reset">MANTENHA PRESSIONADO para zerar\no placar.  Caso o mesmo seja 0:0, então\n apagará nome e cor do time.</string>
+    <string name="help_reset.10">MANTENHA PRESSIONADO para zerar o placar.  Caso o\nmesmo seja 0:0, então apagará nome e cor do time.</string>
+    <string name="help_reset.7">MANTENHA PRESSIONADO para zerar o placar.  Caso o\nmesmo seja 0:0, então apagará nome e cor do time.</string>
+    <string name="help_undo">MANTENHA PRESSIONADO para\ndesfazer um gol.</string>
+    <string name="help_undo.10">MANTENHA PRESSIONADO para desfazer um gol.</string>
+    <string name="help_undo.7">MANTENHA PRESSIONADO para desfazer um gol.</string>
+    <string name="long_press_reset">MANTENHA PRESSIONADO para Zerar o placar</string>
+    <string name="long_press_reset_all">MANTENHA PRESSIONADO NOVAMENTE para Zerar\nnome e cor dos times</string>
+    <string name="long_press_undo">MANTENHA PRESSIONADO para desfazer UM gol</string>
+    <string name="pick_color">Escolha uma cor</string>
+    <string name="reset_score">Zerar Placar</string>
+    <string name="team_A">Local</string>
+    <string name="team_B">Visitante</string>
+    <string name="team_name_hint">Digite o nome de um time</string>
+    <string name="undo">Desfazer</string>
+    <string name="obs">* Esta é a versão gratuita.\n\n- Algumas funcionalidades só existem na versão paga.\n\n- Para qualquer comentário ou sugestão, por favor entre em contato em waisblutmobileapp@gmail.com\n\n- Se você gostou desse Aplicativo, por favor ajude o desenvolvimento instalando a versão paga, por apenas US$0.99 ;)</string>
+</resources>

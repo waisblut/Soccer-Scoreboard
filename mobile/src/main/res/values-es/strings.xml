@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Soccer Scoreboard Lite</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="help_config">PULSE para\najustar el Nombre y color.</string>
+    <string name="help_config.7">Pulse para\najustar el equipo Nombre y color.</string>
+    <string name="help_config.10">Pulse para ajustar el equipo Nombre y color.</string>
+    <string name="help_reset">PULSACIÓN LARGA para restablecer\nlas puntuaciones.  Si es 0: 0,\nentonces reiniciará nombre y color.</string>
+    <string name="help_reset.10">PULSACIÓN LARGA para restablecer las puntuaciones.\nSi es 0: 0, entonces reiniciará nombre y color.</string>
+    <string name="help_reset.7">PULSACIÓN LARGA para restablecer las puntuaciones.  Si es 0: 0,\nentonces reiniciará nombre y color.</string>
+    <string name="help_undo">PULSACIÓN LARGA para\nDeshacer Una puntuación.</string>
+    <string name="help_undo.10">PULSACIÓN LARGA para Deshacer Una puntuación.</string>
+    <string name="help_undo.7">PULSACIÓN LARGA para Deshacer Una puntuación.</string>
+    <string name="long_press_reset">PULSACIÓN LARGA para borrar todos los puntajes</string>
+    <string name="long_press_reset_all">PULSACIÓN LARGA DE NUEVO para borrar nombre de los equipos y colores</string>
+    <string name="long_press_undo">PULSACIÓN LARGA para Deshacer Una puntuación</string>
+    <string name="pick_color">Elija un color</string>
+    <string name="reset_score">Resetear Puntuaciones</string>
+    <string name="team_A">Casa</string>
+    <string name="team_name_hint">Escriba el nombre del equipo</string>
+    <string name="team_B">Visitantes</string>
+    <string name="undo">Deshacer</string>
+    <string name="obs">* Esta es la versión gratuita.\n\n- Algunas funciones sólo están disponibles en la versión de pago. \n\n- Para cualquier comentario o sugerencia, por favor contacte con nosotros en waisblutmobileapp@gmail.com\n\n- Si te gusta esta aplicación, por favor apoye el desarrollo del mismo, mediante la instalación de la versón de US$0.99 ;)</string>
+    <string name="full_version"><![CDATA[<a href="https://play.google.com/store/apps/developer?id=Waisblut+Mobile+Applications">PULSE AQUÍ PARA LA VERSIÓN COMPLETA</a><p>(Para ser lanzado más tarde!)</p>]]></string>
+</resources>

@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -143,8 +144,15 @@ public class FragmentMain
     {
         super.onDestroy();
 
-        mDlgConfig.dismiss();
-        mDlgHelp.dismiss();
+        if (mDlgHelp != null)
+        {
+            mDlgHelp.dismiss();
+        }
+        if (mDlgConfig != null)
+        {
+            mDlgConfig.dismiss();
+        }
+
     }
 
     private void setInitialSettings()
@@ -284,15 +292,12 @@ public class FragmentMain
     //region Dialog...
     @SuppressWarnings("ResultOfMethodCallIgnored")
 
-    private void create_A_dialogHelp()
+   private void create_A_dialogHelp()
     {
         mDlgHelp = new Dialog(getActivity());
 
-
-        mDlgHelp.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDlgHelp.setContentView(R.layout.dialog_help);
-        //mDlgHelp.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        // mDlgHelp.getWindow().setDimAmount(0.05f);
+        mDlgHelp.setTitle(getString(R.string.app_name) + " " + getVersionName());
 
         mDlgHelp.show();
     }
@@ -425,6 +430,23 @@ public class FragmentMain
         }
 
         mDlgConfig.show();
+    }
+
+    private String getVersionName()
+    {
+        String versionName = "";
+        try
+        {
+            versionName = getActivity().getPackageManager()
+                                       .getPackageInfo(getActivity().getPackageName(),
+                                                       0).versionName;
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+
+        return versionName;
     }
 
     //region Dialog Methods....
