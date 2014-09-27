@@ -1,15 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:paddingBottom="1dp"
+    android:paddingLeft="1dp"
+    android:paddingRight="1dp"
+    android:paddingTop="1dp"
     tools:context=".Main_wear"
-    tools:deviceIds="wear_square">
+    tools:deviceIds="wear_square"
+    tools:ignore="ContentDescription">
 
-    <TextView
-        android:id="@+id/text"
+    <LinearLayout
+        android:id="@+id/lay_Back_Main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="34dp"
+        android:layout_marginTop="32dp"
+        android:background="@android:color/transparent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/lay_Back_A"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/soccer_field_left"
+            android:tag="A" />
+
+        <RelativeLayout
+            android:id="@+id/lay_Back_B"
+            android:layout_width="0dp"
+
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/soccer_field_right"
+            android:tag="A" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/transparent"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/lay_A"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/background_team_divider_red"
+            android:tag="A">
+
+            <TextView
+                android:id="@+id/txtTeam_A"
+                style="@style/TextTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:maxLength="10"
+                android:tag="A"
+                android:text="@string/team_A" />
+
+            <Button
+                android:id="@+id/btnUndo_A"
+                style="@style/MyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:tag="A"
+                android:text="@string/undo" />
+
+            <TextView
+                android:id="@+id/txtScore_A"
+                style="@style/TextScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:maxLength="3"
+                android:tag="A"
+                android:text="0"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lay_B"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/background_team_divider_blue"
+            android:orientation="vertical"
+            android:tag="B">
+
+            <TextView
+                android:id="@+id/txtTeam_B"
+                style="@style/TextTeam"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:tag="B"
+                android:text="@string/team_B" />
+
+            <Button
+                android:id="@+id/btnUndo_B"
+                style="@style/MyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:tag="B"
+                android:text="@string/undo" />
+
+            <TextView
+                android:id="@+id/txtScore_B"
+                style="@style/TextScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:maxLength="2"
+                android:tag="B"
+                android:text="0"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnReset"
+        style="@style/MyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_square" />
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="1dp"
+        android:text="@string/reset_score" />
+</RelativeLayout>
+
