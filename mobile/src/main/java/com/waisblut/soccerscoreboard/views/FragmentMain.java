@@ -24,7 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.waisblut.soccerscoreboard.Logger;
+import com.waisblut.common.Logger;
 import com.waisblut.soccerscoreboard.R;
 
 public class FragmentMain
