@@ -10,7 +10,6 @@ import com.waisblut.soccerscoreboard.R;
 public class Main
         extends Activity
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -25,6 +24,8 @@ public class Main
         }
 
         this.getWindow().setBackgroundDrawable(null);
+
+
     }
 
 

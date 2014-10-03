@@ -24,6 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 import com.waisblut.soccerscoreboard.Logger;
 import com.waisblut.soccerscoreboard.R;
 
@@ -33,6 +38,8 @@ public class FragmentMain
 {
 
     //region Variables...
+    private GoogleApiClient mGoogleApiClient;
+
     private RelativeLayout mRlA, mRlB, mRlA_Back, mRlB_Back;
     private Dialog mDlgConfig, mDlgHelp;
     private Button mBtnUndoA;
@@ -136,6 +143,28 @@ public class FragmentMain
         btnReset.setOnLongClickListener(myLongClick);
         //endregion
 
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
+        {
+            @Override
+            public void onConnected(Bundle connectionHint)
+            {
+                Logger.log('d', "onConnected: " + connectionHint);
+            }
+
+            @Override
+            public void onConnectionSuspended(int cause)
+            {
+                Logger.log('d', "onConnectionSuspended: " + cause);
+            }
+        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener()
+        {
+            @Override
+            public void onConnectionFailed(ConnectionResult result)
+            {
+                Logger.log('d', "onConnectionFailed: " + result);
+            }
+        }).addApi(Wearable.API).build();
+
         return view;
     }
 
@@ -153,6 +182,20 @@ public class FragmentMain
             mDlgConfig.dismiss();
         }
 
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        mGoogleApiClient.disconnect();
     }
 
     private void setInitialSettings()
@@ -195,6 +238,7 @@ public class FragmentMain
                 Toast.makeText(getActivity(),
                                getResources().getString(R.string.long_press_reset),
                                Toast.LENGTH_SHORT).show();
+                sendNotification();
                 break;
             }
         }
@@ -292,7 +336,7 @@ public class FragmentMain
     //region Dialog...
     @SuppressWarnings("ResultOfMethodCallIgnored")
 
-   private void create_A_dialogHelp()
+    private void create_A_dialogHelp()
     {
         mDlgHelp = new Dialog(getActivity());
 
@@ -494,4 +538,33 @@ public class FragmentMain
     }
     //endregion
     //endregion
+
+
+    private void sendNotification()
+    {
+        if (mGoogleApiClient.isConnected())
+        {
+            PutDataMapRequest dataMapRequest = PutDataMapRequest.create(Logger.NOTIFICATION_PATH);
+            // Make sure the data item is unique. Usually, this will not be required, as the payload
+            // (in this case the title and the content of the notification) will be different for almost all
+            // situations. However, in this example, the text and the content are always the same, so we need
+            // to disambiguate the data item by adding a field that contains teh current time in milliseconds.
+            dataMapRequest.getDataMap().putDouble(Logger.NOTIFICATION_TIMESTAMP,
+                                                  System.currentTimeMillis());
+            dataMapRequest.getDataMap().putString(Logger.NOTIFICATION_TITLE, "This is the title");
+            dataMapRequest.getDataMap().putString(Logger.NOTIFICATION_CONTENT,
+                                                  "This is a notification with some text.");
+
+            dataMapRequest.getDataMap().putInt(Logger.TEAM_A_SCORE, mCounterA);
+            dataMapRequest.getDataMap().putInt(Logger.TEAM_B_SCORE, mCounterB);
+
+            PutDataRequest putDataRequest = dataMapRequest.asPutDataRequest();
+            Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
+            Logger.log('d', "SENDING NOTIFICATION.....");
+        }
+        else
+        {
+            Logger.log('e', "No connection to wearable available!");
+        }
+    }
 }
