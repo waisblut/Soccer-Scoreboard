@@ -15,6 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 import com.waisblut.soccerscoreboard.Logger;
 import com.waisblut.soccerscoreboard.R;
 import com.waisblut.soccerscoreboard.services.NotificationService;
@@ -25,6 +30,7 @@ public class Main_wear
 {
 
     //region Variables...
+    private GoogleApiClient mGoogleApiClient;
     private RelativeLayout mRlA, mRlB;
     private TextView mTxtNameA, mTxtNameB;
     private TextView mTxtScoreA, mTxtScoreB;
@@ -84,6 +90,9 @@ public class Main_wear
         mRlB.setOnClickListener(this);
         mTxtScoreA.setOnClickListener(this);
         mTxtScoreB.setOnClickListener(this);
+        btnUndoA.setOnClickListener(this);
+        btnUndoB.setOnClickListener(this);
+        btnReset.setOnClickListener(this);
 
         btnUndoA.setOnLongClickListener(myLongClick);
         btnUndoB.setOnLongClickListener(myLongClick);
@@ -92,16 +101,52 @@ public class Main_wear
         mTxtScoreA.setText(String.valueOf(mCounterA));
         mTxtScoreB.setText(String.valueOf(mCounterB));
 
-        registerReceiver();
+        mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks()
+        {
+            @Override
+            public void onConnected(Bundle connectionHint)
+            {
+                Logger.log('d', "WEAR: onConnected: " + connectionHint);
+            }
+
+            @Override
+            public void onConnectionSuspended(int cause)
+            {
+                Logger.log('d', "WEAR: onConnectionSuspended: " + cause);
+            }
+        }).addOnConnectionFailedListener(new GoogleApiClient.OnConnectionFailedListener()
+        {
+            @Override
+            public void onConnectionFailed(ConnectionResult result)
+            {
+                Logger.log('d', "WEAR: onConnectionFailed: " + result);
+            }
+        }).addApi(Wearable.API).build();
+
+        registerThisReceiver();
 
         setInitialSettings();
+    }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        mGoogleApiClient.disconnect();
     }
 
     @Override
     public void onPause()
     {
         super.onPause();
-        unregisterReceiver();
+        unregisterThisReceiver();
     }
 
     @Override
@@ -132,6 +177,7 @@ public class Main_wear
             Toast.makeText(this,
                            getResources().getString(R.string.long_press_reset),
                            Toast.LENGTH_SHORT).show();
+            sendNotification();
             break;
         }
     }
@@ -155,6 +201,34 @@ public class Main_wear
                                        R.drawable.background_team_divider_red));
         setBackground(mRlB, mSp.getInt(Logger.TEAM_B_COLOR,
                                        R.drawable.background_team_divider_blue));
+    }
+
+    private void sendNotification()
+    {
+        if (mGoogleApiClient.isConnected())
+        {
+            PutDataMapRequest dataMapRequest = PutDataMapRequest.create(Logger.NOTIFICATION_PATH);
+            // Make sure the data item is unique. Usually, this will not be required, as the payload
+            // (in this case the title and the content of the notification) will be different for almost all
+            // situations. However, in this example, the text and the content are always the same, so we need
+            // to disambiguate the data item by adding a field that contains teh current time in milliseconds.
+            dataMapRequest.getDataMap().putDouble(Logger.NOTIFICATION_TIMESTAMP,
+                                                  System.currentTimeMillis());
+            dataMapRequest.getDataMap().putString(Logger.NOTIFICATION_TITLE, "This is the title");
+            dataMapRequest.getDataMap().putString(Logger.NOTIFICATION_CONTENT,
+                                                  "This is a notification with some text.");
+
+            dataMapRequest.getDataMap().putInt(Logger.TEAM_A_SCORE, mCounterA);
+            dataMapRequest.getDataMap().putInt(Logger.TEAM_B_SCORE, mCounterB);
+
+            PutDataRequest putDataRequest = dataMapRequest.asPutDataRequest();
+            Wearable.DataApi.putDataItem(mGoogleApiClient, putDataRequest);
+            Logger.log('d', "WEAR: SENDING NOTIFICATION.....");
+        }
+        else
+        {
+            Logger.log('e', "WEAR: No connection to wearable available!");
+        }
     }
 
     @SuppressWarnings("deprecation")
@@ -214,7 +288,7 @@ public class Main_wear
         mSp = getPreferences(Context.MODE_PRIVATE);
     }
 
-    private void registerReceiver()
+    private void registerThisReceiver()
     {
         mReceiver = new ResponseReceiver(this);
         IntentFilter filter = new IntentFilter(NotificationService.ACTION_RESP);
@@ -223,7 +297,7 @@ public class Main_wear
         registerReceiver(mReceiver, filter);
     }
 
-    private void unregisterReceiver()
+    private void unregisterThisReceiver()
     {
         if (mReceiver != null) unregisterReceiver(mReceiver);
     }
@@ -247,14 +321,14 @@ public class Main_wear
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Logger.log('d', "ResponseReceiver....");
+            Logger.log('d', "WEAR: ResponseReceiver....");
             if (intent.getExtras() != null)
             {
                 myActivity.mCounterA = intent.getIntExtra(Logger.TEAM_A_SCORE, -1);
                 myActivity.mCounterB = intent.getIntExtra(Logger.TEAM_B_SCORE, -1);
 
-                myActivity.changeScore(myActivity.mCounterA,'A');
-                myActivity.changeScore(myActivity.mCounterB,'B');
+                myActivity.changeScore(myActivity.mCounterA, 'A');
+                myActivity.changeScore(myActivity.mCounterB, 'B');
             }
         }
     }

@@ -17,7 +17,7 @@ import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 import com.waisblut.soccerscoreboard.Logger;
-import com.waisblut.soccerscoreboard.views.Main_wear;
+import com.waisblut.soccerscoreboard.views.Main;
 
 import java.util.List;
 
@@ -82,7 +82,7 @@ public class NotificationService
                         openApplication(scoreA, scoreB);
                     }
 
-                    Logger.log('d', "WEAR: Receiving NOTIFICATION...");
+                    Logger.log('d', "RECEIVING NOTIFICATION.....");
                 }
             }
         }
@@ -101,9 +101,9 @@ public class NotificationService
      */
     private void openApplication(int scoreA, int scoreB)
     {
-        Logger.log('d', "WEAR: Opening Application");
+        Logger.log('d', "Opening Application");
 
-        Intent viewIntent = new Intent(this, Main_wear.class);
+        Intent viewIntent = new Intent(this, Main.class);
         Bundle extras = new Bundle();
 
         extras.putInt(Logger.TEAM_A_SCORE, scoreA);
@@ -169,7 +169,7 @@ public class NotificationService
         @Override
         public void onConnectionSuspended(int i)
         {
-            Log.d(TAG, "WEAR: onConnectionSuspended");
+            Log.d(TAG, "onConnectionSuspended");
         }
 
         @Override
@@ -185,7 +185,7 @@ public class NotificationService
         @Override
         public void onConnectionFailed(ConnectionResult connectionResult)
         {
-            Log.d(TAG, "WEAR: onConnectionFailed");
+            Log.d(TAG, "onConnectionFailed");
         }
     }
 }

@@ -2,8 +2,11 @@ package com.waisblut.soccerscoreboard.views;
 
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -31,6 +34,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.waisblut.soccerscoreboard.Logger;
 import com.waisblut.soccerscoreboard.R;
+import com.waisblut.soccerscoreboard.services.NotificationService;
 
 public class FragmentMain
         extends Fragment
@@ -48,6 +52,7 @@ public class FragmentMain
     private TextView mTxtScoreA, mTxtScoreB;
     private int mCounterA, mCounterB;
     private SharedPreferences mSp;
+    private ResponseReceiver mReceiver;
     //endregion
 
     public FragmentMain() {}
@@ -165,6 +170,8 @@ public class FragmentMain
             }
         }).addApi(Wearable.API).build();
 
+        registerThisReceiver();
+
         return view;
     }
 
@@ -196,6 +203,13 @@ public class FragmentMain
     {
         super.onStop();
         mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        unregisterThisReceiver();
     }
 
     private void setInitialSettings()
@@ -565,6 +579,51 @@ public class FragmentMain
         else
         {
             Logger.log('e', "No connection to wearable available!");
+        }
+    }
+
+    private void registerThisReceiver()
+    {
+        mReceiver = new ResponseReceiver(this);
+        IntentFilter filter = new IntentFilter(NotificationService.ACTION_RESP);
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+
+        getActivity().registerReceiver(mReceiver, filter);
+    }
+
+    private void unregisterThisReceiver()
+    {
+        if (mReceiver != null) getActivity().unregisterReceiver(mReceiver);
+    }
+
+    public static class ResponseReceiver
+            extends BroadcastReceiver
+    {
+        private FragmentMain myActivity;
+
+        @SuppressWarnings("UnusedDeclaration")
+        public ResponseReceiver()
+        {
+
+        }
+
+        public ResponseReceiver(FragmentMain activity)
+        {
+            this.myActivity = activity;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent)
+        {
+            Logger.log('d', "ResponseReceiver....");
+            if (intent.getExtras() != null)
+            {
+                myActivity.mCounterA = intent.getIntExtra(Logger.TEAM_A_SCORE, -1);
+                myActivity.mCounterB = intent.getIntExtra(Logger.TEAM_B_SCORE, -1);
+
+                myActivity.changeScore(myActivity.mCounterA,'A');
+                myActivity.changeScore(myActivity.mCounterB,'B');
+            }
         }
     }
 }
